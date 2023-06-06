@@ -140,7 +140,6 @@ class CameraActivity : AppCompatActivity() {
 //            val isBackCamera = data?.getBooleanExtra("isBackCamera", true) as Boolean
 //            Log.d("Camera activity", "isBackCamera : $isBackCamera")
 
-
             myFile?.let { file ->
 //                rotateFile(file, isBackCamera)
 

@@ -22,6 +22,9 @@
         android:theme="@style/Theme.Swalokal"
         tools:targetApi="31">
         <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ProductImageActivity"
             android:exported="false" />
         <activity
