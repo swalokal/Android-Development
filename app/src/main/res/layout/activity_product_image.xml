@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/ic_cameraswitch_24" />
 
     <Button
-        android:id="@+id/cameraButton"
+        android:id="@+id/findButton"
         android:layout_width="190dp"
         android:background="@drawable/radius_15"
         android:layout_height="62dp"

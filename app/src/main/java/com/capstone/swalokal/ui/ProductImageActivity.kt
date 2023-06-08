@@ -1,5 +1,6 @@
 package com.capstone.swalokal.ui
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,12 @@ class ProductImageActivity : AppCompatActivity() {
             rotateFile(it, isBackCamera)
             getFile = it
             binding.previewImageView.setImageBitmap(BitmapFactory.decodeFile(it.path))
+        }
+
+        // testing ke halaman maps activity
+        binding.findButton.setOnClickListener {
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
         }
 
     }
