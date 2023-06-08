@@ -1,7 +1,5 @@
 package com.capstone.swalokal.ui
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -47,17 +45,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
 
         bottomSheetBehavior.isHideable = true
-
-
-
-        // Mengatur tinggi Bottom Sheet menjadi 1/3 dari tinggi layar
-//        val displayMetrics = resources.displayMetrics
-//        val screenHeight = displayMetrics.heightPixels
-//        val bottomSheetHeight = screenHeight / 3
-//        bottomSheetBehavior.peekHeight = bottomSheetHeight
-
-        // set color
-
 
         bottomSheetBehavior.peekHeight = 200
 

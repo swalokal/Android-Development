@@ -20,9 +20,7 @@
             android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginVertical="8dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_item_name"
@@ -31,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/iv_item_photo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@drawable/rounded_image_corner"
                 android:scaleType="centerCrop"
                 tools:src="@tools:sample/backgrounds/scenic" />
@@ -40,17 +38,14 @@
 
         <TextView
             android:id="@+id/tv_item_name"
-            android:layout_width="0dp"
+            android:layout_width="274dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/dark_purple"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cardView"
             app:layout_constraintTop_toTopOf="@+id/cardView"
             tools:text="Username" />
 
