@@ -1,13 +1,11 @@
 package com.capstone.swalokal.ui
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -19,11 +17,9 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.capstone.swalokal.MainActivity
-import com.capstone.swalokal.R
 import com.capstone.swalokal.createFile
 import com.capstone.swalokal.databinding.ActivityCameraBinding
-import com.capstone.swalokal.rotateFile
+import com.capstone.swalokal.ui.ProductImage.ProductImageActivity
 import java.io.File
 
 class CameraActivity : AppCompatActivity() {

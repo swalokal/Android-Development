@@ -6,11 +6,10 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
 import com.capstone.swalokal.databinding.ActivityMainBinding
 import com.capstone.swalokal.ui.CameraActivity
-import com.capstone.swalokal.ui.ProductImageActivity
-import com.capstone.swalokal.ui.SearchActivity
+import com.capstone.swalokal.ui.ProductImage.ProductImageActivity
+import com.capstone.swalokal.ui.Search.SearchActivity
 import java.io.File
 
 class MainActivity : AppCompatActivity() {

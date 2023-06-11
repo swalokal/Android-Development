@@ -27,13 +27,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_item_photo"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:background="@drawable/rounded_image_corner"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/backgrounds/scenic" />
+<!--            <ImageView-->
+<!--                android:id="@+id/iv_item_photo"-->
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="70dp"-->
+<!--                android:background="@drawable/rounded_image_corner"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                tools:src="@tools:sample/backgrounds/scenic" />-->
+<!--       -->
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -45,35 +46,11 @@
             android:textColor="@color/dark_purple"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Username" />
 
-        <TextView
-            android:id="@+id/tv_item_distance"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_item_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_item_name"
-            tools:text="100 m" />
-
-        <TextView
-            android:id="@+id/tv_item_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="16sp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_item_distance"
-            app:layout_constraintTop_toBottomOf="@+id/tv_item_distance"
-            tools:text="Jl. Lorem Ipsum" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
