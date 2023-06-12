@@ -52,11 +52,11 @@ class MapsListStoreAdapter :
         fun bind(store: PredictItem) {
             binding.tvItemName.text = store.toko
 
-//            Glide.with(itemView.context)
-//                .load(store.)
-//                .error(R.drawable.ic_baseline_broken_image_24)
-//                .centerCrop()
-//                .into(binding.ivItemPhoto)
+            Glide.with(itemView.context)
+                .load(store.photoUrl)
+                .error(R.drawable.ic_gallery_27)
+                .centerCrop()
+                .into(binding.ivItemPhoto)
 
         }
     }

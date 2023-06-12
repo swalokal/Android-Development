@@ -8,7 +8,6 @@ import com.capstone.swalokal.api.response.PredictItem
 import com.capstone.swalokal.api.response.PredictionResponse
 import com.capstone.swalokal.api.retrofit.ApiService
 import com.capstone.swalokal.dummy.DummyResponse
-import com.capstone.swalokal.dummy.createDummyResponse
 import com.capstone.swalokal.dummy.getDummyJsonResponse
 import com.capstone.swalokal.parseDummyResponse
 import okhttp3.MediaType.Companion.toMediaType

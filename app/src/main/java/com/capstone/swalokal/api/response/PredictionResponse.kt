@@ -31,6 +31,9 @@ data class PredictItem(
 	@field:SerializedName("toko")
 	val toko: String? = null,
 
+	@field:SerializedName("photoUrl")
+	val photoUrl: String? = null,
+
 	@field:SerializedName("id")
 	val id: Int? = null
 ) : Parcelable
