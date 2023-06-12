@@ -73,4 +73,15 @@ class ProductImageViewModel(private val swalokalRepository: SwalokalRepository) 
         return resultLiveData
     }
 
+    // INI DUMMY
+    fun uploadPhotoDummy(photo: File): LiveData<Result<List<PredictItem>>> {
+        val resultLiveData = MutableLiveData<Result<List<PredictItem>>>()
+
+        swalokalRepository.uploadPhotoDummy(photo) { result ->
+            resultLiveData.postValue(result)
+        }
+
+        return resultLiveData
+    }
+
 }

@@ -56,7 +56,8 @@ class ProductImageActivity : AppCompatActivity() {
     private fun setupViewModel() {
         val repository = Injection.provideRepository(this)
         val viewModelFactory = ViewModelFactory(repository)
-        productImageViewModel = ViewModelProvider(this, viewModelFactory)[ProductImageViewModel::class.java]
+        productImageViewModel =
+            ViewModelProvider(this, viewModelFactory)[ProductImageViewModel::class.java]
 
     }
 
@@ -65,20 +66,41 @@ class ProductImageActivity : AppCompatActivity() {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
 
-            productImageViewModel.uploadPhotoChat(file).observe(this) { result ->
+//            productImageViewModel.uploadPhotoChat(file).observe(this) { result ->
+//                when (result) {
+//                    is Result.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is Result.Success -> {
+//                        val predictItems = result.data
+//                        // Lakukan sesuatu dengan data prediksi yang diterima
+//                        Log.d("PIA", predictItems.toString())
+//                    }
+//                    is Result.Error -> {
+//                        val errorMessage = result.err
+//                        Log.d("PIA", errorMessage)
+//                        // Lakukan sesuatu dengan pesan error yang diterima
+//                    }
+//                }
+//            }
+
+            // INI DUMMY
+            productImageViewModel.uploadPhotoDummy(file).observe(this) { result ->
                 when (result) {
-                    is Result.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
+                    is Result.Loading -> {}
                     is Result.Success -> {
                         val predictItems = result.data
                         // Lakukan sesuatu dengan data prediksi yang diterima
-                        Log.d("PIA", predictItems.toString())
+                        Log.d("dummy", predictItems.toString())
+                        val intent = Intent(this, MapsActivity::class.java)
+                        intent.putParcelableArrayListExtra("predictItems", ArrayList(predictItems))
+                        startActivity(intent)
+
                     }
                     is Result.Error -> {
                         val errorMessage = result.err
-                        Log.d("PIA", errorMessage)
                         // Lakukan sesuatu dengan pesan error yang diterima
+                        Log.d("dummy", errorMessage)
                     }
                 }
             }
