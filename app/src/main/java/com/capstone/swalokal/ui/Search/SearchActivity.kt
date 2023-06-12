@@ -19,31 +19,28 @@ import com.capstone.swalokal.api.Result
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var searchViewModel: SearchViewModel
+    private lateinit var adapter: SearchAdapter
+    private var _binding: ActivitySearchBinding? = null
+    private val binding get() = _binding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        _binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
         setupViewModel()
+        setupRv()
 
         // search
-        val searchView = binding.searchProductField
+        val searchView = binding?.searchProductField
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
-        // rv
-        binding.rvItemStore.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(this)
-        binding.rvItemStore.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvItemStore.addItemDecoration(itemDecoration)
+        binding?.progressBar?.visibility = View.GONE
 
-        binding.progressBar.visibility = View.GONE
+        searchView?.setSearchableInfo(searchManager.getSearchableInfo(componentName))
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query == null || query == "") {
                     return false
@@ -52,18 +49,18 @@ class SearchActivity : AppCompatActivity() {
                     if (result != null) {
                         when (result) {
                             is Result.Loading -> {
-                                binding.progressBar.visibility = View.VISIBLE
+                                binding?.progressBar?.visibility = View.VISIBLE
                             }
                             is Result.Success -> {
-                                binding.progressBar.visibility = View.GONE
-                                val adapter = SearchAdapter()
+                                binding?.progressBar?.visibility = View.GONE
+
                                 val storeData = result.data.filter {
                                     it.name.contains(query)
                                 }
                                 adapter.submitList(storeData)
                             }
                             is Result.Error -> {
-                                binding.progressBar.visibility = View.GONE
+                                binding?.progressBar?.visibility = View.GONE
                                 Toast.makeText(
                                     this@SearchActivity,
                                     "Terjadi kesalahan" + result.err,
@@ -82,6 +79,20 @@ class SearchActivity : AppCompatActivity() {
 
         })
 
+
+    }
+
+
+    private fun setupRv() {
+
+        // rv
+        binding?.rvItemStore?.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(this)
+        binding?.rvItemStore?.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding?.rvItemStore?.addItemDecoration(itemDecoration)
+
+        adapter = SearchAdapter()
 
     }
 

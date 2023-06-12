@@ -48,7 +48,7 @@ class ProductImageActivity : AppCompatActivity() {
 
         // testing ke halaman maps activity
         binding.findButton.setOnClickListener {
-//            uploadImage()
+            uploadImage()
         }
 
     }
@@ -61,47 +61,48 @@ class ProductImageActivity : AppCompatActivity() {
     }
 
     // upload and make predict
-//    private fun uploadImage() {
-//        if (getFile != null) {
-//            val file = reduceFileImage(getFile as File)
-//
-//            productImageViewModel.uploadPhoto(file)
-//
-//            // Upload Event
-//            productImageViewModel.uploadResult.observe(this) { result ->
-//                when (result) {
-//                    is Result.Loading -> {
-//                        binding.progressBar.visibility = View.VISIBLE
-//                    }
-//                    is Result.Success -> {
-//                        binding.progressBar.visibility = View.INVISIBLE
-//                        Toast.makeText(
-//                            this@ProductImageActivity,
-//                            "Success upload photo",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//
+    private fun uploadImage() {
+        if (getFile != null) {
+            val file = reduceFileImage(getFile as File)
+
+            productImageViewModel.uploadPhoto(file)
+
+            // Upload Event
+            productImageViewModel.uploadResult.observe(this) { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        Toast.makeText(
+                            this@ProductImageActivity,
+                            "Success upload photo",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.d("productImage", result.data.toString())
+
 //                        val intent = Intent(this, MapsActivity::class.java)
 //                        startActivity(intent)
-//                    }
-//                    is Result.Error -> {
-//                        Toast.makeText(
-//                            this@ProductImageActivity,
-//                            "Fail upload photo",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }
-//            }
-//
-//        } else {
-//            Toast.makeText(
-//                this@ProductImageActivity,
-//                "Image cannot be empty",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-//    }
+                    }
+                    is Result.Error -> {
+                        Toast.makeText(
+                            this@ProductImageActivity,
+                            "Fail upload photo",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
+        } else {
+            Toast.makeText(
+                this@ProductImageActivity,
+                "Image cannot be empty",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     private fun hideSystemUI() {
         @Suppress("DEPRECATION")

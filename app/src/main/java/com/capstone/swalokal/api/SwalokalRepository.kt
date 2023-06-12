@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.capstone.swalokal.api.response.DataItem
+import com.capstone.swalokal.api.response.PredictItem
+import com.capstone.swalokal.api.response.PredictionResponse
 import com.capstone.swalokal.api.retrofit.ApiService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -30,35 +32,30 @@ class SwalokalRepository private constructor(private val apiService: ApiService)
     }
 
     // tanpa call
-//    suspend fun uploadPhotoTanpaCall(photo: File): PredictionResponse {
-//        com.capstone.swalokal.api.Result.Loading
-//        return try {
-//            val requestPhotoFile = photo.asRequestBody("image/jpg".toMediaType())
-//            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-//                "photo",
-//                photo.name,
-//                requestPhotoFile
-//            )
-//            val response = apiService.uploadPhotoTanpaCall(imageMultipart)
-//
-//            if (response.prediction.isNullOrEmpty()) {
-//                Log.d("repo", "response null or empty")
-//                Result.Error("Error")
-//                PredictionResponse(emptyList())
-//
-//            } else {
-//                Log.d("repo", "data : ${response.prediction}")
-//                Result.Success("Success")
-//                PredictionResponse(response.prediction)
-//            }
-//        } catch (e: Exception) {
-//            Log.e("repo", "Terjadi kesalahan saat predict: ${e.message}")
-//            Result.Error(e.message ?: "Gagal predict gambar")
-//            PredictionResponse(emptyList())
-//        }
-//    }
+    fun uploadPhotoTanpaCall(photo: File): PredictionResponse {
+        Result.Loading
+        return try {
+            val requestPhotoFile = photo.asRequestBody("image/jpg".toMediaType())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                photo.name,
+                requestPhotoFile
+            )
+            val response = apiService.uploadPhotoTanpaCall(imageMultipart)
+            val respData = response.data
 
-//    fun uploadPhoto(photo: File) {
+            Log.d("repo", "data : $respData")
+            Result.Success(respData)
+            PredictionResponse(respData)
+
+        } catch (e: Exception) {
+            Log.e("repo", "Terjadi kesalahan saat predict: ${e.message}")
+            Result.Error(e.message ?: "Gagal predict gambar")
+            PredictionResponse(emptyList())
+        }
+    }
+
+//    fun uploadPhoto(photo: File): com.capstone.swalokal.api.Result<List<PredictItem>> {
 //        Log.d("Repo", "repo dijalankan")
 //        val requestPhotoFile = photo.asRequestBody("image/jpg".toMediaType())
 //        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
@@ -74,21 +71,22 @@ class SwalokalRepository private constructor(private val apiService: ApiService)
 //                response: Response<PredictionResponse>,
 //            ) {
 //                if (response.isSuccessful) {
-//                    Log.d("Repo", "is succesful")
+//                    Log.d("Repo", "Berhasil upload photo")
 //                    val responseBody = response.body()
-//                    val predictionResult = responseBody?.prediction
+//                    val predictionResult = responseBody?.data
 //
 //                    if (predictionResult.isNullOrEmpty()) {
+//                        Log.d("Repo", "$predictionResult")
 //                        Log.d("Repo", "list nya kosong")
 //
 //                    } else {
-//                        Log.d("Repo", "Berhasil upload photo")
-//                        Log.d("Repo", "${responseBody.prediction}")
-//                        Result.Success("Success")
+//
+//                        Log.d("Repo", "$predictionResult")
+//                        Result.Success(predictionResult)
 //                    }
 //                } else {
 //                    Log.d("Repo", "Gagal upload story : ${response.message()}")
-//                    Result.Error("Error")
+//                    Result.Error(response.message())
 //                }
 //            }
 //
@@ -96,6 +94,8 @@ class SwalokalRepository private constructor(private val apiService: ApiService)
 //                Result.Error(t.message ?: "Gagal upload photo")
 //            }
 //        })
+//
+//
 //    }
 
     companion object {

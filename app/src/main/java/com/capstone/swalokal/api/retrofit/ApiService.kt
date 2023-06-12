@@ -24,10 +24,10 @@ interface ApiService {
     ): Call<PredictionResponse>
 
 //    // tanpa call
-//    // prediction
-//    @Multipart
-//    @POST("make-predictions")
-//    fun uploadPhotoTanpaCall(
-//        @Part file: MultipartBody.Part,
-//    ): PredictionResponse
+    // prediction
+    @Multipart
+    @POST("make-predictions")
+    fun uploadPhotoTanpaCall(
+        @Part file: MultipartBody.Part,
+    ): PredictionResponse
 }
