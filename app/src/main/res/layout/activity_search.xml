@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:queryHint="Cari User . . ." />
+                app:queryHint="Search Product . . ." />
 <!--            <com.google.android.material.textfield.TextInputLayout-->
 <!--                android:layout_width="0dp"-->
 <!--                android:layout_height="0dp"-->
