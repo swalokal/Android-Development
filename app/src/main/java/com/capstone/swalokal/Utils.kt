@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import com.capstone.swalokal.dummy.DummyResponse
+import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -93,3 +95,6 @@ fun reduceFileImage(file: File): File {
     return file
 }
 
+fun parseDummyResponse(json: String): DummyResponse {
+    return Gson().fromJson(json, DummyResponse::class.java)
+}

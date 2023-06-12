@@ -65,35 +65,64 @@ class ProductImageActivity : AppCompatActivity() {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
 
-            productImageViewModel.uploadPhoto(file)
-
-            // Upload Event
-            productImageViewModel.uploadResult.observe(this) { result ->
+            productImageViewModel.uploadPhotoChat(file).observe(this) { result ->
                 when (result) {
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                     }
                     is Result.Success -> {
-                        binding.progressBar.visibility = View.INVISIBLE
-                        Toast.makeText(
-                            this@ProductImageActivity,
-                            "Success upload photo",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.d("productImage", result.data.toString())
-
-//                        val intent = Intent(this, MapsActivity::class.java)
-//                        startActivity(intent)
+                        val predictItems = result.data
+                        // Lakukan sesuatu dengan data prediksi yang diterima
+                        Log.d("PIA", predictItems.toString())
                     }
                     is Result.Error -> {
-                        Toast.makeText(
-                            this@ProductImageActivity,
-                            "Fail upload photo",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val errorMessage = result.err
+                        Log.d("PIA", errorMessage)
+                        // Lakukan sesuatu dengan pesan error yang diterima
                     }
                 }
             }
+
+
+//            productImageViewModel.uploadPhoto(file)
+
+            // anggap mengembalikan response
+
+
+            // Upload Event
+//            productImageViewModel.list.observe(this){ item ->
+//                if (item.isNullOrEmpty()){
+//                    Log.d("PIAct", "Null or empty")
+//                } else {
+//                    Log.d("PIAct", item.toString())
+//                }
+//            }
+//
+//            productImageViewModel.uploadResult.observe(this) { result ->
+//                when (result) {
+//                    is Result.Loading -> {
+//                        binding.progressBar.visibility = View.VISIBLE
+//                    }
+//                    is Result.Success -> {
+//                        binding.progressBar.visibility = View.INVISIBLE
+//                        Toast.makeText(
+//                            this@ProductImageActivity,
+//                            "Success upload photo",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//
+////                        val intent = Intent(this, MapsActivity::class.java)
+////                        startActivity(intent)
+//                    }
+//                    is Result.Error -> {
+//                        Toast.makeText(
+//                            this@ProductImageActivity,
+//                            "Fail upload photo",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
 
         } else {
             Toast.makeText(

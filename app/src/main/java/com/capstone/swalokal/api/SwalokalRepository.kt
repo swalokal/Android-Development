@@ -7,6 +7,8 @@ import com.capstone.swalokal.api.response.DataItem
 import com.capstone.swalokal.api.response.PredictItem
 import com.capstone.swalokal.api.response.PredictionResponse
 import com.capstone.swalokal.api.retrofit.ApiService
+import com.capstone.swalokal.dummy.DummyResponse
+import com.capstone.swalokal.parseDummyResponse
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -55,48 +57,80 @@ class SwalokalRepository private constructor(private val apiService: ApiService)
         }
     }
 
-//    fun uploadPhoto(photo: File): com.capstone.swalokal.api.Result<List<PredictItem>> {
-//        Log.d("Repo", "repo dijalankan")
-//        val requestPhotoFile = photo.asRequestBody("image/jpg".toMediaType())
-//        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-//            "photo",
-//            photo.name,
-//            requestPhotoFile
-//        )
-//        val uploadImageRequest = apiService.uploadPhoto(imageMultipart)
-//
-//        uploadImageRequest.enqueue(object : Callback<PredictionResponse> {
-//            override fun onResponse(
-//                call: Call<PredictionResponse>,
-//                response: Response<PredictionResponse>,
-//            ) {
-//                if (response.isSuccessful) {
-//                    Log.d("Repo", "Berhasil upload photo")
-//                    val responseBody = response.body()
-//                    val predictionResult = responseBody?.data
-//
-//                    if (predictionResult.isNullOrEmpty()) {
-//                        Log.d("Repo", "$predictionResult")
-//                        Log.d("Repo", "list nya kosong")
-//
-//                    } else {
-//
-//                        Log.d("Repo", "$predictionResult")
-//                        Result.Success(predictionResult)
-//                    }
-//                } else {
-//                    Log.d("Repo", "Gagal upload story : ${response.message()}")
-//                    Result.Error(response.message())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
-//                Result.Error(t.message ?: "Gagal upload photo")
-//            }
-//        })
-//
-//
-//    }
+    fun uploadPhoto(photo: File){
+        val requestPhotoFile = photo.asRequestBody("image/jpg".toMediaType())
+        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "photo",
+            photo.name,
+            requestPhotoFile
+        )
+
+        val uploadImageRequest = apiService.uploadPhoto(imageMultipart)
+        uploadImageRequest.enqueue(object : Callback<PredictionResponse>  {
+            override fun onResponse(
+                call: Call<PredictionResponse>,
+                response: Response<PredictionResponse>,
+            ) {
+
+                if (response.isSuccessful) {
+
+                    val responseBody = response.body()
+                    val predictItem = responseBody?.data
+
+                    Log.d("Repo", "Berhasil upload photo\n result $predictItem")
+                    Result.Success(predictItem)
+
+
+
+                } else {
+                    Log.d("Repo", "Gagal upload story : ${ response.message()}")
+                    Result.Error(response.message())
+                }
+            }
+
+            override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
+                Result.Error(t.message ?: "Gagal upload photo")
+            }
+        })
+
+    }
+
+    fun uploadPhotoChat(photo: File, callback: (Result<List<PredictItem>>) -> Unit) {
+        val requestPhotoFile = photo.asRequestBody("image/jpg".toMediaType())
+        val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "photo",
+            photo.name,
+            requestPhotoFile
+        )
+
+        val uploadImageRequest = apiService.uploadPhoto(imageMultipart)
+        uploadImageRequest.enqueue(object : Callback<PredictionResponse> {
+            override fun onResponse(
+                call: Call<PredictionResponse>,
+                response: Response<PredictionResponse>,
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val predictItems = responseBody?.data
+
+                    Log.d("Repo", "Berhasil upload photo\n result $predictItems")
+                    if (predictItems != null) {
+                        callback(Result.Success(predictItems))
+                    } else {
+                        callback(Result.Error("Empty prediction result"))
+                    }
+                } else {
+                    Log.d("Repo", "Gagal upload story : ${response.message()}")
+                    callback(Result.Error(response.message()))
+                }
+            }
+
+            override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
+                callback(Result.Error(t.message ?: "Gagal upload photo"))
+            }
+        })
+    }
+
 
     companion object {
         @Volatile

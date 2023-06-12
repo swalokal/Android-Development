@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class PredictionResponse(
 
 	@field:SerializedName("data")
-	val data: List<PredictItem?>? = null,
+	val data: List<PredictItem>,
 
 	@field:SerializedName("error")
 	val error: Boolean? = null
