@@ -1,20 +1,21 @@
-package com.capstone.swalokal.ui
+package com.capstone.swalokal.ui.Maps
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.format.DateUtils.formatDateTime
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.FrameLayout
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.swalokal.R
 import com.capstone.swalokal.api.response.PredictItem
 import com.capstone.swalokal.databinding.ActivityMapsBinding
-import com.example.storyapp.di.Injection
+import com.capstone.swalokal.ui.Search.MapsListStoreAdapter
+import com.capstone.swalokal.ui.Search.SearchAdapter
+import com.google.android.gms.location.*
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -29,11 +30,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var bottomSheetContainer: FrameLayout
 
+    private lateinit var adapter: MapsListStoreAdapter
+
     private val boundsBuilder = LatLngBounds.Builder()
 
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,32 +45,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         hideSystemUI()
+        setupRv()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
         // bottom sheet
-        bottomSheetContainer = binding.bottomSheetContainer
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
-
-        bottomSheetBehavior.isHideable = true
-
-        bottomSheetBehavior.peekHeight = 200
-
         binding.expand.setOnClickListener {
             Log.d("Maps", "Expand")
             toggleBottomSheet()
         }
-
-
     }
 
+
     private fun toggleBottomSheet() {
+
+        bottomSheetContainer = binding.bottomSheetContainer
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
+
+        bottomSheetBehavior.isHideable = true
+        bottomSheetBehavior.peekHeight = 200
+
         if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             // Jika Bottom Sheet sedang terbuka, tutup
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -78,6 +80,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -92,15 +95,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         predictItems?.let {
-            if (it.isNotEmpty()){
-                val boundsBuilder = LatLngBounds.Builder()
-                it.forEach {predictItem ->
-                    val loc = LatLng(predictItem.latitude as Double, predictItem.longtitude as Double)
-                    mMap.addMarker(
-                        MarkerOptions().position(loc)
-                            .title(predictItem.toko)
-                    )
-                    boundsBuilder.include(loc)
+            if (it.isNotEmpty()) {
+                // submit data to adapter
+                adapter.submitList(predictItems)
+
+                // show mark
+                it.forEach { predictItem ->
+                        predictItem?.let { item ->
+                            binding.productName.text = "\"${item.name}\""
+                        val loc =
+                            LatLng(predictItem.latitude as Double, predictItem.longtitude as Double)
+                        mMap.addMarker(
+                            MarkerOptions().position(loc)
+                                .title("Toko ${predictItem.toko}")
+                        )
+                        boundsBuilder.include(loc)
+
+                    }
                 }
                 val bounds: LatLngBounds = boundsBuilder.build()
                 mMap.animateCamera(
@@ -114,6 +125,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+    }
+
+    private fun setupRv() {
+
+        adapter = MapsListStoreAdapter()
+        binding.rvItemStore.adapter = adapter
+        // rv
+        binding.rvItemStore.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(this)
+
+        binding.rvItemStore.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+
+        binding.rvItemStore.addItemDecoration(itemDecoration)
     }
 
     private fun hideSystemUI() {

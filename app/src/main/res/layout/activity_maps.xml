@@ -16,7 +16,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.MapsActivity" />
+            tools:context=".ui.Maps.MapsActivity" />
 
     </FrameLayout>
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Oreo"
+                tools:text="Oreo"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/olivine_dark"
@@ -76,7 +76,7 @@
 
             <!-- Recycler view -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_story"
+                android:id="@+id/rvItemStore"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"

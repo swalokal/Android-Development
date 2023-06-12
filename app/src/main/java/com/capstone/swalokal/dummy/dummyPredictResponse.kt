@@ -59,7 +59,15 @@ fun getDummyJsonResponse(): String {
                   "toko": "Chalil Happy",
                   "latitude": 3.35912704467773,
                   "longtitude": 99.38341522216797
-                }
+                },
+                {
+                  "id": 7,
+                  "name": "pop mie",
+                  "price": 6000,
+                  "toko": "pamu ganteng",
+                  "latitude": 3.5612669925,
+                  "longtitude": 98.7177522655
+                },
               ]
             }
         """.trimIndent()

@@ -20,13 +20,13 @@ data class PredictItem(
 	val price: Int? = null,
 
 	@field:SerializedName("latitude")
-	val latitude: Double,
+	val latitude: Double? = null,
 
 	@field:SerializedName("name")
 	val name: String? = null,
 
 	@field:SerializedName("longtitude")
-	val longtitude: Double,
+	val longtitude: Double? = null,
 
 	@field:SerializedName("toko")
 	val toko: String? = null,

@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
@@ -15,10 +14,9 @@ import com.capstone.swalokal.ViewModelFactory
 import com.capstone.swalokal.databinding.ActivityProductImageBinding
 import com.capstone.swalokal.reduceFileImage
 import com.capstone.swalokal.rotateFile
-import com.capstone.swalokal.ui.MapsActivity
+import com.capstone.swalokal.ui.Maps.MapsActivity
 import java.io.File
 import com.capstone.swalokal.api.Result
-import com.capstone.swalokal.ui.CameraActivity
 import com.example.storyapp.di.Injection
 
 class ProductImageActivity : AppCompatActivity() {
