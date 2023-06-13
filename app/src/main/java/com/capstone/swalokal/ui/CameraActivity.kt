@@ -23,7 +23,8 @@ import com.capstone.swalokal.ui.ProductImage.ProductImageActivity
 import java.io.File
 
 class CameraActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCameraBinding
+    private var _binding: ActivityCameraBinding ?= null
+    private val binding get() = _binding
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
 
@@ -33,6 +34,16 @@ class CameraActivity : AppCompatActivity() {
 
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        _binding = null
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -60,8 +71,8 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCameraBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        _binding = ActivityCameraBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
         // checking permission
         if (!allPermissionsGranted()) {
@@ -72,8 +83,8 @@ class CameraActivity : AppCompatActivity() {
             )
         }
 
-        binding.captureImage.setOnClickListener { takePhoto() }
-        binding.switchCamera.setOnClickListener {
+        binding?.captureImage?.setOnClickListener { takePhoto() }
+        binding?.switchCamera?.setOnClickListener {
             cameraSelector =
                 if (cameraSelector.equals(CameraSelector.DEFAULT_BACK_CAMERA)) CameraSelector.DEFAULT_FRONT_CAMERA
                 else CameraSelector.DEFAULT_BACK_CAMERA
@@ -96,7 +107,7 @@ class CameraActivity : AppCompatActivity() {
             val preview = Preview.Builder()
                 .build()
                 .also {
-                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+                    it.setSurfaceProvider(binding?.viewFinder?.surfaceProvider)
                 }
 
             imageCapture = ImageCapture.Builder().build()

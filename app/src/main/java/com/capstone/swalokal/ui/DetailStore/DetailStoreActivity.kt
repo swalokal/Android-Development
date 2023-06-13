@@ -1,10 +1,15 @@
-package com.capstone.swalokal.ui
+package com.capstone.swalokal.ui.DetailStore
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.capstone.swalokal.R
+import com.capstone.swalokal.databinding.ActivityDetailStoreBinding
+import com.capstone.swalokal.databinding.ActivityMapsBinding
 
 class DetailStoreActivity : AppCompatActivity() {
+    private var _binding : ActivityDetailStoreBinding ?= null
+    private val binding get() = _binding
+
     /*
 
     UNTUK INTENT KE GOOGLE MAPS
@@ -24,8 +29,20 @@ class DetailStoreActivity : AppCompatActivity() {
     }
 
     */
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        _binding = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_store)
+        _binding = ActivityDetailStoreBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
     }
 }

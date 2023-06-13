@@ -4,19 +4,17 @@ import com.capstone.swalokal.R
 import com.capstone.swalokal.databinding.StoreItemBinding
 
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.capstone.swalokal.api.response.DataItem
 import com.capstone.swalokal.api.response.PredictItem
+import com.capstone.swalokal.ui.DetailStore.DetailStoreActivity
 
 
 class MapsListStoreAdapter :
@@ -35,15 +33,13 @@ class MapsListStoreAdapter :
             holder.bind(store)
         }
 
-        // fade in
-
         // to detail page
-//        holder.binding.cardView.setOnClickListener {
-//            val intent = Intent(it.context, DetailActivity::class.java)
-//            intent.putExtra(DetailActivity.EXTRA_ID, userStory.id)
-//            holder.itemView.context.startActivity(intent)
-//            Log.d("ADAPTER", "halaman detail ${userStory.name}")
-//        }
+        holder.binding.cardView.setOnClickListener {
+            Log.d("MapsAdapter", "Detail ${store.toko} di klik")
+            val intent = Intent(it.context, DetailStoreActivity::class.java)
+            intent.putExtra("dataItem", store)
+            it.context.startActivity(intent)
+        }
 
     }
 

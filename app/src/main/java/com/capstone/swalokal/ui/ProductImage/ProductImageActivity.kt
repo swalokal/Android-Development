@@ -20,15 +20,25 @@ import com.capstone.swalokal.api.Result
 import com.example.storyapp.di.Injection
 
 class ProductImageActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityProductImageBinding
+    private var _binding: ActivityProductImageBinding ?= null
+    private val binding get() = _binding
     private var getFile: File? = null
     private lateinit var productImageViewModel: ProductImageViewModel
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        _binding = null
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityProductImageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        _binding = ActivityProductImageBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
         hideSystemUI()
         setupViewModel()
@@ -41,11 +51,11 @@ class ProductImageActivity : AppCompatActivity() {
         myFile?.let {
             rotateFile(it, isBackCamera)
             getFile = it
-            binding.previewImageView.setImageBitmap(BitmapFactory.decodeFile(it.path))
+            binding?.previewImageView?.setImageBitmap(BitmapFactory.decodeFile(it.path))
         }
 
         // testing ke halaman maps activity
-        binding.findButton.setOnClickListener {
+        binding?.findButton?.setOnClickListener {
             uploadImage()
         }
 

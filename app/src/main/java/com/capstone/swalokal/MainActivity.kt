@@ -13,20 +13,31 @@ import com.capstone.swalokal.ui.Search.SearchActivity
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding ?= null
+    private val binding get() = _binding
     private var getFile: File? = null
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        _binding = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
-        binding.galleryOption.setOnClickListener { startGallery() }
-        binding.cameraOption.setOnClickListener {
+        binding?.galleryOption?.setOnClickListener { startGallery() }
+        binding?.cameraOption?.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
         }
-        binding.searchProduct.setOnClickListener { searchActivity() }
+        binding?.searchProduct?.setOnClickListener { searchActivity() }
     }
 
     private fun searchActivity() {
