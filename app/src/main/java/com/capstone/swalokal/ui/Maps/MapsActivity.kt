@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.capstone.swalokal.R
 import com.capstone.swalokal.api.response.PredictItem
 import com.capstone.swalokal.databinding.ActivityMapsBinding
@@ -177,10 +178,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
                             binding?.productName?.text = "\"${item.name}\""
                         val loc =
                             LatLng(predictItem.latitude as Double, predictItem.longtitude as Double)
-                        mMap.addMarker(
+                        val marker = mMap.addMarker(
                             MarkerOptions().position(loc)
                                 .title("Toko ${predictItem.toko}")
                         )
+
+                            marker?.tag = predictItem
+
                         boundsBuilder.include(loc)
                     }
                 }
@@ -222,6 +226,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
             MarkerOptions()
                 .position(startLocation)
                 .title("Lokasi Saya")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
         )
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 17f))
@@ -241,7 +246,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     userLocation = LatLng(location.latitude, location.longitude)
-                    Log.d("User loc", userLocation.toString())
                     showStartmarker(location)
                 } else {
                     Toast.makeText(
@@ -265,6 +269,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
     override fun onMarkerClick(marker: Marker): Boolean {
         previousPolyline?.remove()
 
+        val predictItem = marker.tag as PredictItem
+
         // lokasi pengguna
         if (userLocation != null){
 
@@ -279,6 +285,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
 
             val newPolylineUpd = mMap.addPolyline(newPolyline)
             previousPolyline = newPolylineUpd
+
+            // menampilkan info loc
+            val title = marker.title
+            val message = "Informasi marker: $title"
+            Toast.makeText(this@MapsActivity, message, Toast.LENGTH_SHORT).show()
+
+            // Tampilkan informasi lainnya dari PredictItem
+//            val predictItemName = predictItem.name
+//            val predictItemToko = predictItem.toko
+            binding?.namaToko?.text = predictItem.toko
+            binding?.let {
+                Glide.with(this)
+                    .load(predictItem.photoUrl)
+                    .error(R.drawable.ic_gallery_27)
+                    .centerCrop()
+                    .into(it.previewImageView)
+            }
+
+            // ...
+            // Tampilkan informasi sesuai kebutuhan Anda
 
         } else {
             Toast.makeText(
