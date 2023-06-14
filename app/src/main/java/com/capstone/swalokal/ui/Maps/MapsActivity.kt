@@ -2,6 +2,7 @@ package com.capstone.swalokal.ui.Maps
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.os.Build
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.util.concurrent.TimeUnit
 import android.location.Location
+import android.net.Uri
 import com.capstone.swalokal.distanceBetween
 
 
@@ -282,6 +284,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 //             lokasi mark
             val markerLocation = marker.position
 
+            Log.d("User location", userLocation.toString())
+            Log.d("Target location", markerLocation.toString())
+
+            val originLocationRoute = userLocation.toString().substringAfter("(").substringBefore(")")
+            val destinationLocationRoute = markerLocation.toString().substringAfter("(").substringBefore(")")
+
+            Log.d("User location formatted", originLocationRoute)
+            Log.d("Target location formatt", destinationLocationRoute)
+
 //            mMap.addMarker(
 //                MarkerOptions().position(markerLocation)
 //                    .title("Toko ${predictItem.toko}")
@@ -323,6 +334,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
             binding?.jarakToko?.text = "$simpleFormatDistance m"
 
+            val origin = "latitude,longitude" // Koordinat asal
+            val destination = "latitude,longitude" // Koordinat tujuan
+
+            binding?.rute?.setOnClickListener {
+                val intentUri = "https://www.google.com/maps/dir/?api=1&origin=$originLocationRoute&destination=$destinationLocationRoute"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(intentUri))
+                intent.setPackage("com.google.android.apps.maps")
+                startActivity(intent)
+            }
 
         } else {
             Toast.makeText(
