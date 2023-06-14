@@ -183,9 +183,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 // show mark
                 it.forEach { predictItem ->
                     predictItem?.let { item ->
-                        binding?.productName?.text = "\"${item.name}\""
+
                         val loc =
-                            LatLng(predictItem.latitude as Double, predictItem.longtitude as Double)
+                            LatLng(predictItem.latitude as Double, predictItem.longitude as Double)
                         val marker = mMap.addMarker(
                             MarkerOptions().position(loc)
                                 .title("Toko ${predictItem.toko}")
@@ -324,10 +324,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
             // Tampilkan informasi toko
+            binding?.productName?.text = "\"${predictItem.name}\""
+
             binding?.namaToko?.text = "Toko ${predictItem.toko}"
             binding?.let {
                 Glide.with(this)
-                    .load(predictItem.photoUrl)
+                    .load(predictItem.url)
                     .error(R.drawable.ic_gallery_27)
                     .centerCrop()
                     .into(it.previewImageView)

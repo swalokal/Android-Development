@@ -6,11 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 data class PredictionResponse(
 
-	@field:SerializedName("data")
-	val data: List<PredictItem>,
-
-	@field:SerializedName("error")
-	val error: Boolean? = null
+	@field:SerializedName("detail")
+	val detail: Detail
 )
 
 @Parcelize
@@ -25,15 +22,24 @@ data class PredictItem(
 	@field:SerializedName("name")
 	val name: String? = null,
 
-	@field:SerializedName("longtitude")
-	val longtitude: Double? = null,
-
 	@field:SerializedName("toko")
 	val toko: String? = null,
 
-	@field:SerializedName("photoUrl")
-	val photoUrl: String? = null,
-
 	@field:SerializedName("id")
-	val id: Int? = null
+	val id: Int? = null,
+
+	@field:SerializedName("url")
+	val url: String? = null,
+
+	@field:SerializedName("longitude")
+	val longitude: Double? = null
 ) : Parcelable
+
+data class Detail(
+
+	@field:SerializedName("data")
+	val data: List<PredictItem>,
+
+	@field:SerializedName("eror")
+	val eror: Boolean? = null
+)
