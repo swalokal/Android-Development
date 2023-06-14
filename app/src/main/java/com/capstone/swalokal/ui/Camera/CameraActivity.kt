@@ -1,4 +1,4 @@
-package com.capstone.swalokal.ui
+package com.capstone.swalokal.ui.Camera
 
 import android.Manifest
 import android.content.Intent

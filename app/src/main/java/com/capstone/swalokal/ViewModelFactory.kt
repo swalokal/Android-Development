@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.swalokal.api.SwalokalRepository
 import com.capstone.swalokal.ui.ProductImage.ProductImageViewModel
-import com.capstone.swalokal.ui.Search.SearchViewModel
 
 class ViewModelFactory(private val repository: SwalokalRepository) :
     ViewModelProvider.Factory {
@@ -18,11 +17,6 @@ class ViewModelFactory(private val repository: SwalokalRepository) :
             modelClass.isAssignableFrom(ProductImageViewModel::class.java) -> {
                 ProductImageViewModel(repository) as T
             }
-
-            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
-                SearchViewModel(repository) as T
-            }
-
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <!-- Konten Utama -->
+    <!-- Map -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,10 +25,9 @@
         android:id="@+id/bottomSheetContainer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:behavior_hideable="true"
-
-        app:behavior_peekHeight="300dp"
         android:background="@color/olivine_soft"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="300dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- Isi Bottom Sheet -->
@@ -40,9 +39,9 @@
                 android:id="@+id/resultFor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:text="Result for "
+                android:text="@string/result_for"
                 android:textAlignment="center"
                 android:textColor="@color/dark_purple"
                 android:textSize="18sp"
@@ -68,14 +67,15 @@
                 android:id="@+id/expand"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="32dp"
+                android:contentDescription="@string/expand"
                 android:gravity="center"
                 android:src="@drawable/ic_expand_24"
                 map:layout_constraintBottom_toBottomOf="@+id/productName"
                 map:layout_constraintEnd_toEndOf="parent"
                 map:layout_constraintTop_toTopOf="@+id/productName" />
 
-            <!--            Detail content-->
+            <!-- Bottom Sheet Content -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="wrap_content"
@@ -90,7 +90,8 @@
                     android:id="@+id/previewImageView"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@color/olivine_dark" />
+                    android:background="@color/olivine_dark"
+                    android:contentDescription="@string/foto_toko" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -98,11 +99,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="32dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="Nama Toko"
+                android:text="@string/nama_toko"
                 android:textAlignment="textStart"
                 android:textColor="@color/dark_purple"
                 android:textSize="18sp"
@@ -117,10 +118,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:ellipsize="end"
-                android:text="100 m"
+                android:text="@string/_100_m"
                 android:textAlignment="textStart"
                 android:textColor="@color/red"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 map:layout_constraintEnd_toEndOf="parent"
                 map:layout_constraintStart_toStartOf="@+id/namaToko"
@@ -131,7 +132,8 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/icon_route"
                 android:gravity="center"
                 android:src="@drawable/ic_directions_24"
                 map:layout_constraintStart_toStartOf="@+id/jarakToko"

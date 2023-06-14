@@ -64,6 +64,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         hideSystemUI()
 
+        bottomSheetContainer = binding?.bottomSheetContainer!!
+        BottomSheetBehavior.from(bottomSheetContainer).state = BottomSheetBehavior.STATE_HIDDEN
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -293,20 +296,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             Log.d("User location formatted", originLocationRoute)
             Log.d("Target location formatt", destinationLocationRoute)
 
-//            mMap.addMarker(
-//                MarkerOptions().position(markerLocation)
-//                    .title("Toko ${predictItem.toko}")
-//            )
-
-            // gambar polilyne
-//            val newPolyline = PolylineOptions()
-//                .add(userLocation!!, markerLocation)
-//                .color(Color.RED)
-//                .width(10f)
-//
-//            val newPolylineUpd = mMap.addPolyline(newPolyline)
-//            previousPolyline = newPolylineUpd
-
             // menampilkan info loc
             toggleBottomSheet()
 
@@ -318,7 +307,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             val simpleFormatDistance = String.format("%.2f", distance)
             val message = "Toko $title"
 
-            Toast.makeText(this@MapsActivity, message, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@MapsActivity, message, Toast.LENGTH_SHORT).show()
 
             Log.d("maps", "jarak $simpleFormatDistance")
 
@@ -333,9 +322,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     .into(it.previewImageView)
             }
             binding?.jarakToko?.text = "$simpleFormatDistance m"
-
-            val origin = "latitude,longitude" // Koordinat asal
-            val destination = "latitude,longitude" // Koordinat tujuan
 
             binding?.rute?.setOnClickListener {
                 val intentUri = "https://www.google.com/maps/dir/?api=1&origin=$originLocationRoute&destination=$destinationLocationRoute"

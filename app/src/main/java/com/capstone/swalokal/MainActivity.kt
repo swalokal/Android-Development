@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import com.capstone.swalokal.databinding.ActivityMainBinding
-import com.capstone.swalokal.ui.CameraActivity
+import com.capstone.swalokal.ui.Camera.CameraActivity
 import com.capstone.swalokal.ui.ProductImage.ProductImageActivity
 import com.capstone.swalokal.ui.Search.SearchActivity
 import java.io.File
