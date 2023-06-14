@@ -3,13 +3,15 @@ package com.capstone.swalokal
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import com.capstone.swalokal.databinding.ActivityMainBinding
 import com.capstone.swalokal.ui.Camera.CameraActivity
 import com.capstone.swalokal.ui.ProductImage.ProductImageActivity
-import com.capstone.swalokal.ui.Search.SearchActivity
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -32,19 +34,14 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+        hideSystemUI()
+
         binding?.galleryOption?.setOnClickListener { startGallery() }
         binding?.cameraOption?.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
         }
-        binding?.searchProduct?.setOnClickListener { searchActivity() }
     }
-
-    private fun searchActivity() {
-        val intent = Intent(this, SearchActivity::class.java)
-        startActivity(intent)
-    }
-
 
     private fun startGallery() {
         val intent = Intent()
@@ -70,4 +67,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun hideSystemUI() {
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+        supportActionBar?.hide()
+    }
+
+
 }

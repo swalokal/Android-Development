@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -229,15 +230,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun showUserMarker(location: Location) {
-        val startLocation = LatLng(location.latitude, location.longitude)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(startLocation)
+        val userLocation = LatLng(location.latitude, location.longitude)
+
+        val markerOptions = MarkerOptions()
+                .position(userLocation)
                 .title("Lokasi Saya")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
-        )
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 17f))
+        mMap.addMarker(markerOptions)
+
+        val circleOptions = CircleOptions()
+            .center(userLocation)
+            .radius(50.0) // radius 50m
+            .strokeColor(Color.TRANSPARENT)
+            .fillColor(Color.argb(80, 172, 233, 195))
+            .zIndex(1f)
+
+        mMap.addCircle(circleOptions)
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17f))
 
     }
 
