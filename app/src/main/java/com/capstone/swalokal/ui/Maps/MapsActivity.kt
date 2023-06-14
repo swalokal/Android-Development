@@ -33,21 +33,21 @@ import android.location.Location
 import com.capstone.swalokal.distanceBetween
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarkerClickListener {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var bottomSheetContainer: FrameLayout
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
 
-    private var userLocation: LatLng ?= null
+    private var userLocation: LatLng? = null
 
     private val boundsBuilder = LatLngBounds.Builder()
 
-    private var previousPolyline: Polyline ?= null
+    private var previousPolyline: Polyline? = null
 
     private lateinit var mMap: GoogleMap
-    private var _binding: ActivityMapsBinding ?= null
+    private var _binding: ActivityMapsBinding? = null
     private val binding get() = _binding
 
     companion object {
@@ -77,7 +77,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
 
         // bottom sheet state
         if (savedInstanceState != null) {
-            val sheetState = savedInstanceState.getInt("bottom_sheet_state", BottomSheetBehavior.STATE_COLLAPSED)
+            val sheetState =
+                savedInstanceState.getInt("bottom_sheet_state", BottomSheetBehavior.STATE_COLLAPSED)
             bottomSheetBehavior.state = sheetState
         }
     }
@@ -120,6 +121,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
             }
 
     }
+
     private val resolutionLauncher = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
@@ -174,8 +176,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
             if (it.isNotEmpty()) {
                 // show mark
                 it.forEach { predictItem ->
-                        predictItem?.let { item ->
-                            binding?.productName?.text = "\"${item.name}\""
+                    predictItem?.let { item ->
+                        binding?.productName?.text = "\"${item.name}\""
                         val loc =
                             LatLng(predictItem.latitude as Double, predictItem.longtitude as Double)
                         val marker = mMap.addMarker(
@@ -183,7 +185,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
                                 .title("Toko ${predictItem.toko}")
                         )
 
-                            marker?.tag = predictItem
+                        marker?.tag = predictItem
 
                         boundsBuilder.include(loc)
                     }
@@ -233,6 +235,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 17f))
 
     }
+
     private fun checkPermission(permisssion: String): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
@@ -274,7 +277,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
         val predictItem = marker.tag as PredictItem
 
         // lokasi pengguna
-        if (userLocation != null){
+        if (userLocation != null) {
 
 //             lokasi mark
             val markerLocation = marker.position
@@ -294,6 +297,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
 //            previousPolyline = newPolylineUpd
 
             // menampilkan info loc
+            toggleBottomSheet()
 
             val title = marker.title
             val distance = distanceBetween(
@@ -320,7 +324,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
             binding?.jarakToko?.text = "$simpleFormatDistance m"
 
 
-
         } else {
             Toast.makeText(
                 this@MapsActivity,
@@ -331,6 +334,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMarke
 
         return true
     }
+
     private fun hideSystemUI() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
