@@ -24,9 +24,9 @@
     <FrameLayout
         android:id="@+id/bottomSheetContainer"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="500dp"
+        app:behavior_peekHeight="70dp"
         android:background="@color/olivine_soft"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -80,60 +80,52 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 app:cardCornerRadius="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 map:layout_constraintTop_toBottomOf="@+id/resultFor">
 
                 <ImageView
                     android:id="@+id/previewImageView"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@color/olivine_dark" />
             </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/namaToko"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:text="Nama Toko"
+                android:layout_marginEnd="32dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textAlignment="center"
+                android:text="Nama Toko"
+                android:textAlignment="textStart"
                 android:textColor="@color/dark_purple"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                map:layout_constraintEnd_toEndOf="parent"
                 map:layout_constraintStart_toEndOf="@+id/cardView2"
                 map:layout_constraintTop_toTopOf="@+id/cardView2" />
 
+            <TextView
+                android:id="@+id/jarakToko"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:ellipsize="end"
+                android:text="100 m"
+                android:textAlignment="textStart"
+                android:textColor="@color/dark_purple"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                map:layout_constraintEnd_toEndOf="parent"
+                map:layout_constraintStart_toStartOf="@+id/namaToko"
+                map:layout_constraintTop_toBottomOf="@+id/namaToko" />
 
-            <!-- Recycler view -->
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rvItemStore"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="0dp"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                android:padding="4dp"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                map:layout_constraintTop_toBottomOf="@+id/resultFor"-->
-            <!--                tools:listitem="@layout/store_item" />-->
-
-            <!--            <ProgressBar-->
-            <!--                android:id="@+id/progressBar"-->
-            <!--                style="?android:attr/progressBarStyle"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:visibility="gone"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                tools:visibility="visible" />-->
-        </androidx.constraintlayout.widget.ConstraintLayout>
+   </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
