@@ -89,8 +89,8 @@ fun getActualResponseJsonResponse(): String {
                         "name": "Pop Mie",
                         "price": 6000,
                         "toko": "Kedai Lajang",
-                        "latitude": 3.5646057567452254,
-                        "longitude": 98.71551935521344,
+                        "latitude": 3.5643062170422586,
+                        "longitude": 98.71618024136616,
                         "url": "https://storage.googleapis.com/swalokal_store/toko/toko-4.jpg"
                     }
                 ]

@@ -1,33 +1,19 @@
 package com.capstone.swalokal.data.api
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import com.capstone.swalokal.data.api.response.PredictItem
 import com.capstone.swalokal.data.api.retrofit.ApiService
 import com.capstone.swalokal.data.getActualResponseJsonResponse
-import com.capstone.swalokal.parseDummyResponse
+import com.capstone.swalokal.parseResponse
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class SwalokalRepository private constructor(private val apiService: ApiService) {
-    // get data
-    fun getData(): LiveData<Result<List<PredictItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getData()
-            val products = response.detail.data
-            val filteredProducts = products.filterNotNull()
-            emit(Result.Success(filteredProducts))
-        } catch (e: Exception) {
-            Log.d("UserRepository", "getData: ${e.message.toString()} ")
-            Result.Error(e.message.toString())
-        }
-    }
 
-    suspend fun uploadPhoto(photo: File): Result<List<PredictItem>> {
+    // make prediction
+    suspend fun makePredictions(photo: File): Result<List<PredictItem>> {
         val requestPhotoFile = photo.asRequestBody("image/jpg".toMediaType())
         val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
             "photo",
@@ -60,10 +46,10 @@ class SwalokalRepository private constructor(private val apiService: ApiService)
     }
 
 
-    // INI DUMMY
-    fun uploadPhotoDummy(photo: File, callback: (Result<List<PredictItem>>) -> Unit) {
-        val dummyResponse = parseDummyResponse(getActualResponseJsonResponse())
-        callback(Result.Success(dummyResponse.data))
+    // Actual Response Data
+    fun makePredictionActualResponse(photo: File, callback: (Result<List<PredictItem>>) -> Unit) {
+        val actualResponseData = parseResponse(getActualResponseJsonResponse())
+        callback(Result.Success(actualResponseData.data))
     }
 
     companion object {

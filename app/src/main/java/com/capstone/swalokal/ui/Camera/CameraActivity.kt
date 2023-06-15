@@ -30,6 +30,7 @@ class CameraActivity : AppCompatActivity() {
 
 
     companion object {
+        const val TAG = "CameraActivity"
         const val CAMERA_X_RESULT = 200
 
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
@@ -61,7 +62,7 @@ class CameraActivity : AppCompatActivity() {
             if (!allPermissionsGranted()) {
                 Toast.makeText(
                     this,
-                    "Tidak mendapatkan permission.",
+                    "Enable camera usage permission to use this feature",
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
@@ -124,7 +125,7 @@ class CameraActivity : AppCompatActivity() {
             } catch (exc: Exception) {
                 Toast.makeText(
                     this@CameraActivity,
-                    "Gagal memunculkan kamera.",
+                    "Failed to launch camera",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -144,13 +145,9 @@ class CameraActivity : AppCompatActivity() {
                 data?.getSerializableExtra("picture")
             } as? File
 
-//            val isBackCamera = data?.getBooleanExtra("isBackCamera", true) as Boolean
-//            Log.d("Camera activity", "isBackCamera : $isBackCamera")
-
             myFile?.let { file ->
-//                rotateFile(file, isBackCamera)
 
-                // Kirim file gambar ke aktivitas tujuan
+                // Send image
                 val intent = Intent(this, ProductImageActivity::class.java)
                 intent.putExtra("picture", file)
                 intent.putExtra(
@@ -175,7 +172,7 @@ class CameraActivity : AppCompatActivity() {
                 override fun onError(exc: ImageCaptureException) {
                     Toast.makeText(
                         this@CameraActivity,
-                        "Gagal mengambil gambar.",
+                        "Failed to launch camera",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

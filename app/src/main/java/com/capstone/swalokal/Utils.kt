@@ -95,7 +95,7 @@ fun reduceFileImage(file: File): File {
     return file
 }
 
-fun parseDummyResponse(json: String): ActualResponse {
+fun parseResponse(json: String): ActualResponse {
     return Gson().fromJson(json, ActualResponse::class.java)
 }
 

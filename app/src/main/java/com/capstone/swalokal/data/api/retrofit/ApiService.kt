@@ -6,8 +6,6 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
-    @GET("all")
-    fun getData(): PredictionResponse
 
     // prediction
     @Multipart

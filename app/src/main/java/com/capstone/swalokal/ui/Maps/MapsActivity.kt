@@ -47,8 +47,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     private val boundsBuilder = LatLngBounds.Builder()
 
-    private var previousPolyline: Polyline? = null
-
     private lateinit var mMap: GoogleMap
     private var _binding: ActivityMapsBinding? = null
     private val binding get() = _binding
@@ -136,7 +134,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             RESULT_CANCELED ->
                 Toast.makeText(
                     this@MapsActivity,
-                    "Anda harus mengaktifkan GPS untuk menggunakan aplikasi ini!",
+                    "Enable GPS usage permission to use this feature",
                     Toast.LENGTH_SHORT
                 ).show()
         }
@@ -176,23 +174,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         // items
         val predictItems = intent.getParcelableArrayListExtra<PredictItem>("predictItems")
-        Log.d("PredictItems", predictItems.toString())
 
         predictItems?.let {
             if (it.isNotEmpty()) {
+
                 // show mark
                 it.forEach { predictItem ->
                     predictItem?.let { item ->
-
                         val loc =
-                            LatLng(predictItem.latitude as Double, predictItem.longitude as Double)
+                            LatLng(predictItem.latitude, predictItem.longitude)
                         val marker = mMap.addMarker(
                             MarkerOptions().position(loc)
                                 .title("Toko ${predictItem.toko}")
                         )
 
                         marker?.tag = predictItem
-
                         boundsBuilder.include(loc)
                     }
                 }
@@ -207,7 +203,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 )
             }
         }
-
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -234,7 +229,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         val markerOptions = MarkerOptions()
                 .position(userLocation)
-                .title("Lokasi Saya")
+                .title("Your Location")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
 
         mMap.addMarker(markerOptions)
@@ -247,9 +242,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             .zIndex(1f)
 
         mMap.addCircle(circleOptions)
-
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 17f))
-
     }
 
     private fun checkPermission(permisssion: String): Boolean {
@@ -288,42 +281,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     @SuppressLint("SetTextI18n")
     override fun onMarkerClick(marker: Marker): Boolean {
-        previousPolyline?.remove()
 
         val predictItem = marker.tag as PredictItem
 
-        // lokasi pengguna
+        // user loc
         if (userLocation != null) {
-
-//             lokasi mark
             val markerLocation = marker.position
-
-            Log.d("User location", userLocation.toString())
-            Log.d("Target location", markerLocation.toString())
-
             val originLocationRoute = userLocation.toString().substringAfter("(").substringBefore(")")
             val destinationLocationRoute = markerLocation.toString().substringAfter("(").substringBefore(")")
 
-            Log.d("User location formatted", originLocationRoute)
-            Log.d("Target location formatt", destinationLocationRoute)
-
-            // menampilkan info loc
+            // show info on bottom sheet
             toggleBottomSheet()
 
-            val title = marker.title
             val distance = distanceBetween(
                 userLocation!!.latitude, userLocation!!.longitude,
                 markerLocation.latitude, markerLocation.longitude
             )
             val simpleFormatDistance = String.format("%.2f", distance)
-            val message = "Toko $title"
 
-//            Toast.makeText(this@MapsActivity, message, Toast.LENGTH_SHORT).show()
-
-            Log.d("maps", "jarak $simpleFormatDistance")
-
-
-            // Tampilkan informasi toko
+            // show info text on bottom sheet
             binding?.productName?.text = "\"${predictItem.name}\""
 
             binding?.namaToko?.text = "Toko ${predictItem.toko}"
@@ -346,7 +322,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         } else {
             Toast.makeText(
                 this@MapsActivity,
-                "Lokasi anda tidak tersedia",
+                "Your location is not available.",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -366,6 +342,4 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
         supportActionBar?.hide()
     }
-
-
 }

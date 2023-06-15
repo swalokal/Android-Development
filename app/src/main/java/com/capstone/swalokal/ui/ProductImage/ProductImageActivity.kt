@@ -26,6 +26,9 @@ class ProductImageActivity : AppCompatActivity() {
     private var getFile: File? = null
     private lateinit var productImageViewModel: ProductImageViewModel
 
+    companion object {
+        private const val TAG = "ProductImageActivity"
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -47,8 +50,7 @@ class ProductImageActivity : AppCompatActivity() {
 
         val myFile = intent?.getSerializableExtra("picture") as? File
         val isBackCamera = intent?.getBooleanExtra("isBackCamera", true) as Boolean
-        Log.d("Product Image", "isBackCamera : $isBackCamera")
-
+        Log.d(TAG, "isBackCamera : $isBackCamera")
 
         myFile?.let {
             rotateFile(it, isBackCamera)
@@ -56,11 +58,10 @@ class ProductImageActivity : AppCompatActivity() {
             binding?.previewImageView?.setImageBitmap(BitmapFactory.decodeFile(it.path))
         }
 
-        // testing ke halaman maps activity
+        // Action
         binding?.findButton?.setOnClickListener {
             uploadImage()
         }
-
     }
 
     private fun setupViewModel() {
@@ -68,7 +69,6 @@ class ProductImageActivity : AppCompatActivity() {
         val viewModelFactory = ViewModelFactory(repository)
         productImageViewModel =
             ViewModelProvider(this, viewModelFactory)[ProductImageViewModel::class.java]
-
     }
 
     // upload and make predict
@@ -76,7 +76,7 @@ class ProductImageActivity : AppCompatActivity() {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
 
-//            productImageViewModel.uploadPhoto(file)
+//            productImageViewModel.makePredictions(file)
 //            productImageViewModel.uploadResult.observe(this) { result ->
 //                when (result) {
 //                    is Result.Loading -> {
@@ -94,23 +94,25 @@ class ProductImageActivity : AppCompatActivity() {
 //                }
 //            }
 
-//             INI DUMMY
-            productImageViewModel.uploadPhotoDummy(file).observe(this) { result ->
+            // Actual Response Data
+            productImageViewModel.makePredictionActualResponse(file).observe(this) { result ->
                 when (result) {
-                    is Result.Loading -> {}
+                    is Result.Loading -> {
+                        binding?.progressBar?.visibility = View.VISIBLE
+                    }
                     is Result.Success -> {
+                        binding?.progressBar?.visibility = View.GONE
                         val predictItems = result.data
-                        // Lakukan sesuatu dengan data prediksi yang diterima
-                        Log.d("dummy", predictItems.toString())
                         val intent = Intent(this, MapsActivity::class.java)
                         intent.putParcelableArrayListExtra("predictItems", ArrayList(predictItems))
                         startActivity(intent)
 
                     }
                     is Result.Error -> {
+                        binding?.progressBar?.visibility = View.GONE
+                        Toast.makeText(this, "There was a problem uploading images", Toast.LENGTH_SHORT).show()
                         val errorMessage = result.err
-                        // Lakukan sesuatu dengan pesan error yang diterima
-                        Log.d("dummy", errorMessage)
+                        Log.d(TAG, errorMessage)
                     }
                 }
             }
