@@ -5,88 +5,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capstone.swalokal.api.SwalokalRepository
+import com.capstone.swalokal.data.api.SwalokalRepository
 import kotlinx.coroutines.launch
-import com.capstone.swalokal.api.Result
-import com.capstone.swalokal.api.response.PredictItem
-import com.capstone.swalokal.api.response.PredictionResponse
+import com.capstone.swalokal.data.api.Result
+import com.capstone.swalokal.data.api.response.PredictItem
+import com.capstone.swalokal.data.api.response.PredictionResponse
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class ProductImageViewModel(private val swalokalRepository: SwalokalRepository) : ViewModel() {
 
     // get data
-    private val _getItems = MutableLiveData<Result<List<PredictItem>>>()
-    val getItems: LiveData<Result<List<PredictItem>>> get() = _getItems
-
-
-    // upload
-    private var _uploadResult = MutableLiveData<Result<Unit>>()
-    val uploadResult: LiveData<Result<Unit>> get() = _uploadResult
-
-    private var _list = MutableLiveData<List<PredictItem>>()
-    val list: LiveData<List<PredictItem>> get() = _list
-
-    // loading post
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
-
     fun getData() = swalokalRepository.getData()
 
     // upload and make prediction
+    private val _uploadResult = MutableLiveData<Result<List<PredictItem>>>()
+    val uploadResult: LiveData<Result<List<PredictItem>>> get() = _uploadResult
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
     fun uploadPhoto(photo: File) {
-        _loading.value = true
-        try {
-            swalokalRepository.uploadPhoto(photo)
-            Log.d("VM", "upload success")
-        } catch (e: Exception) {
-            Log.d("VM", "upload fail : ${e.message}")
-        } finally {
+        viewModelScope.launch {
+            _loading.value = true
+            val result = swalokalRepository.uploadPhoto(photo)
+            _uploadResult.value = result
             _loading.value = false
         }
+        Log.d("VM", uploadResult.toString())
     }
-
-//        viewModelScope.launch {
-//            _uploadResult.value = Result.Loading
-//            try {
-//                val result = swalokalRepository.uploadPhoto(photo)
-//                _uploadResult.value = Result.Success(result)
-//
-//                Log.d("view model", "upload result sukses")
-//
-//            } catch (e: Exception) {
-//                _uploadResult.value = Result.Error(e.message ?: "Failed to upload story")
-//                Log.d("view model", "exception ${e.message}")
-//            }
-//        }
-
-
-//    fun uploadPhotoTanpaCall(photo: File) {
-//        viewModelScope.launch {
-//            _uploadResult.value = Result.Loading
-//            try {
-//                val result = swalokalRepository.uploadPhotoTanpaCall(photo)
-//                _uploadResult.value =  Result.Success(result)
-//                Log.d("view model", "result sukses : ${result.detail?.data}")
-//
-//            } catch (e: Exception) {
-//                _uploadResult.value = Result.Error(e.message ?: "Failed to upload story")
-//                Log.d("view model", "exception")
-//            }
-//        }
-//    }
-
-
-    // chat
-
-//    fun uploadPhotoChat(photo: File): LiveData<Result<List<PredictItem>>> {
-//        val resultLiveData = MutableLiveData<Result<List<PredictItem>>>()
-//
-//        swalokalRepository.uploadPhotoChat(photo) { result ->
-//            resultLiveData.postValue(result)
-//        }
-//
-//        return resultLiveData
-//    }
 
     // INI DUMMY
     fun uploadPhotoDummy(photo: File): LiveData<Result<List<PredictItem>>> {
@@ -95,8 +44,6 @@ class ProductImageViewModel(private val swalokalRepository: SwalokalRepository) 
         swalokalRepository.uploadPhotoDummy(photo) { result ->
             resultLiveData.postValue(result)
         }
-
         return resultLiveData
     }
-
 }

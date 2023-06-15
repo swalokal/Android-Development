@@ -17,7 +17,7 @@ import com.capstone.swalokal.reduceFileImage
 import com.capstone.swalokal.rotateFile
 import com.capstone.swalokal.ui.Maps.MapsActivity
 import java.io.File
-import com.capstone.swalokal.api.Result
+import com.capstone.swalokal.data.api.Result
 import com.example.storyapp.di.Injection
 
 class ProductImageActivity : AppCompatActivity() {
@@ -76,116 +76,44 @@ class ProductImageActivity : AppCompatActivity() {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
 
-            // coba get
-//            productImageViewModel.getData().observe(this){result ->
-//                if (result != null) {
-//                    when (result) {
-//                        is Result.Loading -> {
-//                            binding?.progressBar?.visibility = View.VISIBLE
-//                        }
-//                        is Result.Success -> {
-//                            binding?.progressBar?.visibility = View.GONE
-//                            val userData = result.data
-//                            Log.d("PIA", "test get : $userData")
-//                        }
-//                        is Result.Error -> {
-//                            binding?.progressBar?.visibility = View.GONE
-//                        }
-//                    }
-//                }
-//            }
-
-            productImageViewModel.uploadPhoto(file)
-            productImageViewModel.loading.observe(this) { isLoading ->
-                if (isLoading) {
-                    binding?.progressBar?.visibility = View.VISIBLE
-                } else {
-                    binding?.progressBar?.visibility = View.GONE
-                }
-            }
-
-
 //            productImageViewModel.uploadPhoto(file)
-//            productImageViewModel.uploadResult.observe(this){ result ->
-//                when (result) {
-//
-//                    is Result.Loading -> {
-//                        binding?.progressBar?.visibility = View.VISIBLE
-//                    }
-//                    is Result.Success -> {
-//                        val predictItems = result.data
-//                        Log.d("Predict Items", predictItems.toString())
-//                    }
-//                    is Result.Error -> {
-//                        val errorMessage = result.err
-//                        Log.d("PIA", errorMessage)
-//                        // Lakukan sesuatu dengan pesan error yang diterima
-//                    }
-//                }
-//            }
-
-
-            // INI DUMMY
-//            productImageViewModel.uploadPhotoDummy(file).observe(this) { result ->
-//                when (result) {
-//                    is Result.Loading -> {}
-//                    is Result.Success -> {
-//                        val predictItems = result.data
-//                        // Lakukan sesuatu dengan data prediksi yang diterima
-//                        Log.d("dummy", predictItems.toString())
-//                        val intent = Intent(this, MapsActivity::class.java)
-//                        intent.putParcelableArrayListExtra("predictItems", ArrayList(predictItems))
-//                        startActivity(intent)
-//
-//                    }
-//                    is Result.Error -> {
-//                        val errorMessage = result.err
-//                        // Lakukan sesuatu dengan pesan error yang diterima
-//                        Log.d("dummy", errorMessage)
-//                    }
-//                }
-//            }
-
-
-//            productImageViewModel.uploadPhoto(file)
-
-            // anggap mengembalikan response
-
-
-            // Upload Event
-//            productImageViewModel.list.observe(this){ item ->
-//                if (item.isNullOrEmpty()){
-//                    Log.d("PIAct", "Null or empty")
-//                } else {
-//                    Log.d("PIAct", item.toString())
-//                }
-//            }
-
 //            productImageViewModel.uploadResult.observe(this) { result ->
 //                when (result) {
 //                    is Result.Loading -> {
-//                        binding?.progressBar?.visibility = View.VISIBLE
+//                        binding?.progressBar?.visibility = View.GONE
 //                    }
 //                    is Result.Success -> {
-//                        binding?.progressBar?.visibility = View.INVISIBLE
-//                        Toast.makeText(
-//                            this@ProductImageActivity,
-//                            "Success upload photo",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//
-////                        val intent = Intent(this, MapsActivity::class.java)
-////                        startActivity(intent)
+//                        val predictions = result.data
+//                        Log.d("PIA Sc", predictions.toString())
 //                    }
 //                    is Result.Error -> {
-//                        Toast.makeText(
-//                            this@ProductImageActivity,
-//                            "Fail upload photo",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
+//                        val errorMessage = result.err
+//                        Log.d("PIA Er", errorMessage)
+//                        Toast.makeText(this, "Cannot process image", Toast.LENGTH_SHORT).show()
 //                    }
 //                }
 //            }
+
+//             INI DUMMY
+            productImageViewModel.uploadPhotoDummy(file).observe(this) { result ->
+                when (result) {
+                    is Result.Loading -> {}
+                    is Result.Success -> {
+                        val predictItems = result.data
+                        // Lakukan sesuatu dengan data prediksi yang diterima
+                        Log.d("dummy", predictItems.toString())
+                        val intent = Intent(this, MapsActivity::class.java)
+                        intent.putParcelableArrayListExtra("predictItems", ArrayList(predictItems))
+                        startActivity(intent)
+
+                    }
+                    is Result.Error -> {
+                        val errorMessage = result.err
+                        // Lakukan sesuatu dengan pesan error yang diterima
+                        Log.d("dummy", errorMessage)
+                    }
+                }
+            }
 
         } else {
             Toast.makeText(

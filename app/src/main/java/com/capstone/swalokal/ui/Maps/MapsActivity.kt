@@ -20,7 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.capstone.swalokal.R
-import com.capstone.swalokal.api.response.PredictItem
+import com.capstone.swalokal.data.api.response.PredictItem
 import com.capstone.swalokal.databinding.ActivityMapsBinding
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*

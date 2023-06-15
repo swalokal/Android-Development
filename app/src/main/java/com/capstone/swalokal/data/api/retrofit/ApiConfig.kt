@@ -1,4 +1,4 @@
-package com.capstone.swalokal.api.retrofit
+package com.capstone.swalokal.data.api.retrofit
 
 import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient
