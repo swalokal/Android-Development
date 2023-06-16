@@ -61,7 +61,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         _binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+        // fused location init
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient((this))
+
         hideSystemUI()
+        getMyLastLocation()
 
         bottomSheetContainer = binding?.bottomSheetContainer!!
         BottomSheetBehavior.from(bottomSheetContainer).state = BottomSheetBehavior.STATE_HIDDEN
@@ -77,7 +81,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             toggleBottomSheet()
         }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient((this))
 
         // bottom sheet state
         if (savedInstanceState != null) {
@@ -282,6 +285,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     @SuppressLint("SetTextI18n")
     override fun onMarkerClick(marker: Marker): Boolean {
 
+        // show info on bottom sheet and conf state
+        toggleBottomSheet()
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
         val predictItem = marker.tag as PredictItem
 
         // user loc
@@ -289,9 +296,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             val markerLocation = marker.position
             val originLocationRoute = userLocation.toString().substringAfter("(").substringBefore(")")
             val destinationLocationRoute = markerLocation.toString().substringAfter("(").substringBefore(")")
-
-            // show info on bottom sheet
-            toggleBottomSheet()
 
             val distance = distanceBetween(
                 userLocation!!.latitude, userLocation!!.longitude,

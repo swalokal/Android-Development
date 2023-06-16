@@ -82,7 +82,7 @@ fun getActualResponseJsonResponse(): String {
                         "toko": "Kedai Atjeh",
                         "latitude": 3.5628282138769407,
                         "longitude": 98.71546571100734,
-                        "url": "https://storage.googleapis.com/swalokal_store/toko/toko-4.jpg"
+                        "url": "https://storage.googleapis.com/swalokal_store/toko/toko-2.jpg"
                     },
                     {
                         "id": 10,
@@ -91,7 +91,7 @@ fun getActualResponseJsonResponse(): String {
                         "toko": "Kedai Lajang",
                         "latitude": 3.5643062170422586,
                         "longitude": 98.71618024136616,
-                        "url": "https://storage.googleapis.com/swalokal_store/toko/toko-4.jpg"
+                        "url": "https://storage.googleapis.com/swalokal_store/toko/toko-3.jpg"
                     }
                 ]
             }
